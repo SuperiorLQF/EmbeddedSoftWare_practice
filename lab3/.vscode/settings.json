@@ -1,0 +1,10 @@
+{
+    "editor.suggest.snippetsPreventQuickSuggestions": false,
+    "aiXcoder.showTrayIcon": true,
+    "files.associations": {
+        "stdio.h": "c",
+        "cstdio": "c",
+        "*.tcc": "c",
+        "wait.h": "c"
+    }
+}

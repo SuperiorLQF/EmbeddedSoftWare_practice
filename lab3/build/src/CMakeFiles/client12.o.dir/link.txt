@@ -1,0 +1,1 @@
+/usr/bin/gcc  -g -Wall -std=c99 -g -rdynamic CMakeFiles/client12.o.dir/client12.c.o -o client12.o 

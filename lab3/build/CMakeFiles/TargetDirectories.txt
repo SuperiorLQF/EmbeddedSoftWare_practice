@@ -1,0 +1,7 @@
+/home/lqf/lab3/build/CMakeFiles/edit_cache.dir
+/home/lqf/lab3/build/CMakeFiles/rebuild_cache.dir
+/home/lqf/lab3/build/src/CMakeFiles/server3.o.dir
+/home/lqf/lab3/build/src/CMakeFiles/client12.o.dir
+/home/lqf/lab3/build/src/CMakeFiles/client22.o.dir
+/home/lqf/lab3/build/src/CMakeFiles/edit_cache.dir
+/home/lqf/lab3/build/src/CMakeFiles/rebuild_cache.dir
