@@ -7,11 +7,13 @@
 #include<fcntl.h>
 #include<wait.h>
 #include<string.h>
-
+#include<time.h>
 #include<pthread.h>
 #include<semaphore.h>
+#include<stdint.h>
 //https://blog.csdn.net/a04171283/article/details/115451949?ops_request_misc=&request_id=&biz_id=102&utm_term=%E8%AF%BB%E8%80%85%E4%BC%98%E5%85%88&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduweb~default-1-115451949.nonecase&spm=1018.2226.3001.4187
 /***********<全局变量>*****************/
+struct timespec startT;
 typedef struct thread_args{
     int a;
     int b;
@@ -26,6 +28,7 @@ void *reader(p_thargs p1);
 void *writer(p_thargs p1);
 /***********<主程序>*****************/
 int main(){
+    clock_gettime(CLOCK_MONOTONIC,&startT);//获取初始时间
     //创建线程参数结构指针
     int i=3;
     int j=5;
@@ -52,18 +55,24 @@ int main(){
         sem_wait(&datarecv_sem);
     }
 
-    p1->rw_num=0;
-    pthread_create(&writernum[0],NULL,(void *)writer,p1);//创建线程时，如果结构指针的值在之后需要修改，则在修改前需要用互斥量同步
-    sem_wait(&datarecv_sem);
-    
-    p1->rw_num=k;
-    pthread_create(&readernum[k],NULL,(void *)reader,p1);
-    sem_wait(&datarecv_sem);
-
-    for(k=0;k<6;k++){
-        pthread_join(readernum[k],NULL);   //回收线程     
+    for(k=0;k<10;k++){
+        p1->rw_num=k;//为传递参数赋值
+        pthread_create(&writernum[k],NULL,(void *)writer,p1);//创建写线程
+        //等待信号接受数据完毕
+        sem_wait(&datarecv_sem);
     }
-    pthread_join(writernum[0],NULL);    
+    
+    for(k=5;k<10;k++){
+        p1->rw_num=k;//为传递参数赋值
+        pthread_create(&readernum[k],NULL,(void *)reader,p1);//创建写线程
+        //等待信号接受数据完毕
+        sem_wait(&datarecv_sem);
+    }
+
+    for(k=0;k<10;k++){
+        pthread_join(readernum[k],NULL);   //回收线程
+        pthread_join(writernum[k],NULL);   //回收线程       
+    } 
     return 0;
 }
 /***********<读线程函数>*****************/
@@ -86,7 +95,10 @@ void *reader(p_thargs p1)
  
 
     //读文件操作
-    printf("[reader %d]:reading...\n",thag1.rw_num);  
+    struct timespec endT;
+    clock_gettime(CLOCK_MONOTONIC,&endT);
+    uint32_t delta_ms = (endT.tv_sec - startT.tv_sec) * 1000 + (endT.tv_nsec - startT.tv_nsec) / 1000000;
+    printf("[%d ms][reader %d]:reading...\n",delta_ms,thag1.rw_num);  
     sleep(1);
     
     //进入计数临界区
@@ -112,7 +124,11 @@ void *writer(p_thargs p1)
     pthread_mutex_lock(&writer_mutex);
     
     //写文件操作
-    printf("[writer %d]:writing...\n",thag1.rw_num);
+    struct timespec endT;
+    clock_gettime(CLOCK_MONOTONIC,&endT);
+    uint32_t delta_ms = (endT.tv_sec - startT.tv_sec) * 1000 + (endT.tv_nsec - startT.tv_nsec) / 1000000;
+    printf("[%d ms][writer %d]:wrting...\n",delta_ms,thag1.rw_num); 
+    
     //可以添加一些实际写文件，例如写txt
     sleep(1);
     //释放写锁
