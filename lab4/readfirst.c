@@ -11,47 +11,107 @@
 #include<pthread.h>
 #include<semaphore.h>
 //https://blog.csdn.net/a04171283/article/details/115451949?ops_request_misc=&request_id=&biz_id=102&utm_term=%E8%AF%BB%E8%80%85%E4%BC%98%E5%85%88&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduweb~default-1-115451949.nonecase&spm=1018.2226.3001.4187
-
-/***********<读函数>*****************/
-void reader()
-{
-    // pend(readercount_mutex);
-    // if(readercount == 0) 
-    //     pend(writer_mutex);//获得写锁
-    // //第一个读者需占据写锁
-    // readercount++;
-    // post(readercount_mutex);
-    // //reading the shared file
-    // pend(readercount_mutex);
-    // readercount--;
-    // if(readercount == 0) post(writer_mutex);
-    // //最后一个读者释放写锁
-    // post(readercount_mutex);
-
-}
+/***********<全局变量>*****************/
 typedef struct thread_args{
     int a;
     int b;
+    int rw_num;
 }thread_args,*p_thargs;
-/***********<写函数>*****************/
-void *writer(p_thargs p1){
-    // pend(writer_mutex);//获得写锁
-
-    // //wirting the shared file
-    printf("ok");
-    printf("the num is\n%d\n%d\n",p1->a,p1->b);
-    // post(writer_mutex);
-}
+static int readercount=0;//读者计数变量，初始化为0
+static pthread_mutex_t readercount_mutex,writer_mutex;
+static sem_t datarecv_sem;
+/***********<读线程函数>*****************/
+void *reader(p_thargs p1);
+/***********<写线程函数>*****************/
+void *writer(p_thargs p1);
 /***********<主程序>*****************/
-int *main(){
+int main(){
+    //创建线程参数结构指针
     int i=3;
     int j=5;
+    int k=0;
     p_thargs p1;
     p1=(p_thargs)malloc(sizeof(thread_args));
     p1->a=i;
     p1->b=j;
+    p1->rw_num=k;
+    
+    //创建互斥锁
+    pthread_mutex_init(&readercount_mutex,NULL);
+    pthread_mutex_init(&writer_mutex,NULL);
+    //创建数据传输同步信号量
+    sem_init(&datarecv_sem,0,0);//初始值为0
+    //创建线程
     pthread_t writernum[10],readernum[10];
-    pthread_create(&writernum[0],NULL,(void *)writer,p1);//创建线程
-    sleep(1);
+    for(k=0;k<5;k++){
+        p1->rw_num=k;//为传递参数赋值
+        pthread_create(&readernum[k],NULL,(void *)reader,p1);//创建写线程
+        //等待信号接受数据完毕
+        sem_wait(&datarecv_sem);
+    }
+    pthread_mutex_lock(&readercount_mutex);
+    p1->rw_num=0;
+    pthread_mutex_unlock(&readercount_mutex);
+    pthread_create(&writernum[0],NULL,(void *)writer,p1);//创建线程时，如果结构指针的值在之后需要修改，则在修改前需要用互斥量同步
+    pthread_mutex_lock(&readercount_mutex);
+    p1->rw_num=6;
+    pthread_mutex_unlock(&readercount_mutex);
+    pthread_create(&readernum[k],NULL,(void *)reader,p1);    
+    for(k=0;k<6;k++){
+        pthread_join(readernum[k],NULL);   //回收线程     
+    }
+    pthread_join(writernum[0],NULL);    
     return 0;
+}
+/***********<读线程函数>*****************/
+void *reader(p_thargs p1)
+{   
+
+    //信号同步接受
+    thread_args thag1=*p1;
+    //接收完毕释放信号
+    sem_post(&datarecv_sem);
+    
+    //进入计数临界区
+    pthread_mutex_lock(&readercount_mutex);
+    if(readercount == 0) 
+        pthread_mutex_lock(&writer_mutex);  //第一个读者需占据写锁
+    
+    readercount++;
+    pthread_mutex_unlock(&readercount_mutex);
+    //退出计数临界区
+ 
+
+    //读文件操作
+    printf("[reader %d]:reading...\n",thag1.rw_num);  
+    sleep(1);
+    
+    //进入计数临界区
+    pthread_mutex_lock(&readercount_mutex);
+    readercount--;
+    
+    if(readercount == 0) 
+        pthread_mutex_unlock(&writer_mutex); //最后一个读者释放写锁
+    
+    pthread_mutex_unlock(&readercount_mutex);
+    //退出计数临界区
+
+}
+/***********<写线程函数>*****************/
+void *writer(p_thargs p1)
+{   
+    //接收结果
+    thread_args thag1=*p1;
+    //获得写锁，否则一直阻塞等待
+    pthread_mutex_lock(&writer_mutex);
+    
+    //写文件操作
+    printf("[writer %d]:writing...\n",thag1.rw_num);
+    //可以添加一些实际写文件，例如写txt
+    sleep(1);
+    //释放写锁
+    pthread_mutex_unlock(&writer_mutex);
+
+    //退出线程
+    pthread_exit(NULL);
 }
