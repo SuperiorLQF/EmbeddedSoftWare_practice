@@ -1,0 +1,1 @@
+/usr/bin/cc -rdynamic CMakeFiles/readfirst.o.dir/readfirst.c.o -o readfirst.o  -lpthread 

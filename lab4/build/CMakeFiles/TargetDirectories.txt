@@ -1,0 +1,3 @@
+/home/lqf/EmbeddedSoftWare_practice/lab4/build/CMakeFiles/readfirst.o.dir
+/home/lqf/EmbeddedSoftWare_practice/lab4/build/CMakeFiles/edit_cache.dir
+/home/lqf/EmbeddedSoftWare_practice/lab4/build/CMakeFiles/rebuild_cache.dir
