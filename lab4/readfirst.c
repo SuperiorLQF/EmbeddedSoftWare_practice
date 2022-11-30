@@ -39,8 +39,10 @@ int main(){
     //创建互斥锁
     pthread_mutex_init(&readercount_mutex,NULL);
     pthread_mutex_init(&writer_mutex,NULL);
+    
     //创建数据传输同步信号量
     sem_init(&datarecv_sem,0,0);//初始值为0
+    
     //创建线程
     pthread_t writernum[10],readernum[10];
     for(k=0;k<5;k++){
@@ -49,14 +51,15 @@ int main(){
         //等待信号接受数据完毕
         sem_wait(&datarecv_sem);
     }
-    pthread_mutex_lock(&readercount_mutex);
+
     p1->rw_num=0;
-    pthread_mutex_unlock(&readercount_mutex);
     pthread_create(&writernum[0],NULL,(void *)writer,p1);//创建线程时，如果结构指针的值在之后需要修改，则在修改前需要用互斥量同步
-    pthread_mutex_lock(&readercount_mutex);
-    p1->rw_num=6;
-    pthread_mutex_unlock(&readercount_mutex);
-    pthread_create(&readernum[k],NULL,(void *)reader,p1);    
+    sem_wait(&datarecv_sem);
+    
+    p1->rw_num=k;
+    pthread_create(&readernum[k],NULL,(void *)reader,p1);
+    sem_wait(&datarecv_sem);
+
     for(k=0;k<6;k++){
         pthread_join(readernum[k],NULL);   //回收线程     
     }
@@ -100,8 +103,11 @@ void *reader(p_thargs p1)
 /***********<写线程函数>*****************/
 void *writer(p_thargs p1)
 {   
-    //接收结果
+    //信号同步接受
     thread_args thag1=*p1;
+    //接收完毕释放信号
+    sem_post(&datarecv_sem);
+
     //获得写锁，否则一直阻塞等待
     pthread_mutex_lock(&writer_mutex);
     
