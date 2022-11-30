@@ -64,6 +64,7 @@ CMAKE_BINARY_DIR = /home/lqf/EmbeddedSoftWare_practice/lab4/build
 
 # The main recursive "all" target.
 all: CMakeFiles/readfirst.o.dir/all
+all: CMakeFiles/writefirst.o.dir/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
@@ -72,6 +73,7 @@ preinstall:
 
 # The main recursive "clean" target.
 clean: CMakeFiles/readfirst.o.dir/clean
+clean: CMakeFiles/writefirst.o.dir/clean
 .PHONY : clean
 
 #=============================================================================
@@ -99,6 +101,32 @@ readfirst.o: CMakeFiles/readfirst.o.dir/rule
 CMakeFiles/readfirst.o.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/readfirst.o.dir/build.make CMakeFiles/readfirst.o.dir/clean
 .PHONY : CMakeFiles/readfirst.o.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/writefirst.o.dir
+
+# All Build rule for target.
+CMakeFiles/writefirst.o.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/writefirst.o.dir/build.make CMakeFiles/writefirst.o.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/writefirst.o.dir/build.make CMakeFiles/writefirst.o.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/lqf/EmbeddedSoftWare_practice/lab4/build/CMakeFiles --progress-num=3,4 "Built target writefirst.o"
+.PHONY : CMakeFiles/writefirst.o.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/writefirst.o.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/lqf/EmbeddedSoftWare_practice/lab4/build/CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/writefirst.o.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/lqf/EmbeddedSoftWare_practice/lab4/build/CMakeFiles 0
+.PHONY : CMakeFiles/writefirst.o.dir/rule
+
+# Convenience name for target.
+writefirst.o: CMakeFiles/writefirst.o.dir/rule
+.PHONY : writefirst.o
+
+# clean rule for target.
+CMakeFiles/writefirst.o.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/writefirst.o.dir/build.make CMakeFiles/writefirst.o.dir/clean
+.PHONY : CMakeFiles/writefirst.o.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

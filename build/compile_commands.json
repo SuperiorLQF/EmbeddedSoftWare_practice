@@ -1,0 +1,17 @@
+[
+{
+  "directory": "/home/lqf/EmbeddedSoftWare_practice/build/src",
+  "command": "/usr/bin/gcc    -g -Wall -std=c99 -g -o CMakeFiles/server3.o.dir/server3.c.o -c /home/lqf/EmbeddedSoftWare_practice/lab3/src/server3.c",
+  "file": "/home/lqf/EmbeddedSoftWare_practice/lab3/src/server3.c"
+},
+{
+  "directory": "/home/lqf/EmbeddedSoftWare_practice/build/src",
+  "command": "/usr/bin/gcc    -g -Wall -std=c99 -g -o CMakeFiles/client12.o.dir/client12.c.o -c /home/lqf/EmbeddedSoftWare_practice/lab3/src/client12.c",
+  "file": "/home/lqf/EmbeddedSoftWare_practice/lab3/src/client12.c"
+},
+{
+  "directory": "/home/lqf/EmbeddedSoftWare_practice/build/src",
+  "command": "/usr/bin/gcc    -g -Wall -std=c99 -g -o CMakeFiles/client22.o.dir/client22.c.o -c /home/lqf/EmbeddedSoftWare_practice/lab3/src/client22.c",
+  "file": "/home/lqf/EmbeddedSoftWare_practice/lab3/src/client22.c"
+}
+]

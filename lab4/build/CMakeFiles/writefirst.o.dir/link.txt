@@ -1,0 +1,1 @@
+/usr/bin/cc -rdynamic CMakeFiles/writefirst.o.dir/writefirst.c.o -o writefirst.o  -lpthread 

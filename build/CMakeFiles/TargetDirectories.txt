@@ -1,0 +1,7 @@
+/home/lqf/EmbeddedSoftWare_practice/build/CMakeFiles/edit_cache.dir
+/home/lqf/EmbeddedSoftWare_practice/build/CMakeFiles/rebuild_cache.dir
+/home/lqf/EmbeddedSoftWare_practice/build/src/CMakeFiles/server3.o.dir
+/home/lqf/EmbeddedSoftWare_practice/build/src/CMakeFiles/client12.o.dir
+/home/lqf/EmbeddedSoftWare_practice/build/src/CMakeFiles/client22.o.dir
+/home/lqf/EmbeddedSoftWare_practice/build/src/CMakeFiles/edit_cache.dir
+/home/lqf/EmbeddedSoftWare_practice/build/src/CMakeFiles/rebuild_cache.dir

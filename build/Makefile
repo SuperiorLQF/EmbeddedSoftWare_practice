@@ -57,10 +57,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/lqf/EmbeddedSoftWare_practice/lab4
+CMAKE_SOURCE_DIR = /home/lqf/EmbeddedSoftWare_practice/lab3
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/lqf/EmbeddedSoftWare_practice/lab4/build
+CMAKE_BINARY_DIR = /home/lqf/EmbeddedSoftWare_practice/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -87,9 +87,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/lqf/EmbeddedSoftWare_practice/lab4/build/CMakeFiles /home/lqf/EmbeddedSoftWare_practice/lab4/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/lqf/EmbeddedSoftWare_practice/build/CMakeFiles /home/lqf/EmbeddedSoftWare_practice/build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/lqf/EmbeddedSoftWare_practice/lab4/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/lqf/EmbeddedSoftWare_practice/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -117,78 +117,43 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named readfirst.o
+# Target rules for targets named server3.o
 
 # Build rule for target.
-readfirst.o: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 readfirst.o
-.PHONY : readfirst.o
+server3.o: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 server3.o
+.PHONY : server3.o
 
 # fast build rule for target.
-readfirst.o/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/readfirst.o.dir/build.make CMakeFiles/readfirst.o.dir/build
-.PHONY : readfirst.o/fast
+server3.o/fast:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/server3.o.dir/build.make src/CMakeFiles/server3.o.dir/build
+.PHONY : server3.o/fast
 
 #=============================================================================
-# Target rules for targets named writefirst.o
+# Target rules for targets named client12.o
 
 # Build rule for target.
-writefirst.o: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 writefirst.o
-.PHONY : writefirst.o
+client12.o: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 client12.o
+.PHONY : client12.o
 
 # fast build rule for target.
-writefirst.o/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/writefirst.o.dir/build.make CMakeFiles/writefirst.o.dir/build
-.PHONY : writefirst.o/fast
+client12.o/fast:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/client12.o.dir/build.make src/CMakeFiles/client12.o.dir/build
+.PHONY : client12.o/fast
 
-readfirst.o: readfirst.c.o
-.PHONY : readfirst.o
+#=============================================================================
+# Target rules for targets named client22.o
 
-# target to build an object file
-readfirst.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/readfirst.o.dir/build.make CMakeFiles/readfirst.o.dir/readfirst.c.o
-.PHONY : readfirst.c.o
+# Build rule for target.
+client22.o: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 client22.o
+.PHONY : client22.o
 
-readfirst.i: readfirst.c.i
-.PHONY : readfirst.i
-
-# target to preprocess a source file
-readfirst.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/readfirst.o.dir/build.make CMakeFiles/readfirst.o.dir/readfirst.c.i
-.PHONY : readfirst.c.i
-
-readfirst.s: readfirst.c.s
-.PHONY : readfirst.s
-
-# target to generate assembly for a file
-readfirst.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/readfirst.o.dir/build.make CMakeFiles/readfirst.o.dir/readfirst.c.s
-.PHONY : readfirst.c.s
-
-writefirst.o: writefirst.c.o
-.PHONY : writefirst.o
-
-# target to build an object file
-writefirst.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/writefirst.o.dir/build.make CMakeFiles/writefirst.o.dir/writefirst.c.o
-.PHONY : writefirst.c.o
-
-writefirst.i: writefirst.c.i
-.PHONY : writefirst.i
-
-# target to preprocess a source file
-writefirst.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/writefirst.o.dir/build.make CMakeFiles/writefirst.o.dir/writefirst.c.i
-.PHONY : writefirst.c.i
-
-writefirst.s: writefirst.c.s
-.PHONY : writefirst.s
-
-# target to generate assembly for a file
-writefirst.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/writefirst.o.dir/build.make CMakeFiles/writefirst.o.dir/writefirst.c.s
-.PHONY : writefirst.c.s
+# fast build rule for target.
+client22.o/fast:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/client22.o.dir/build.make src/CMakeFiles/client22.o.dir/build
+.PHONY : client22.o/fast
 
 # Help Target
 help:
@@ -198,14 +163,9 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... readfirst.o"
-	@echo "... writefirst.o"
-	@echo "... readfirst.o"
-	@echo "... readfirst.i"
-	@echo "... readfirst.s"
-	@echo "... writefirst.o"
-	@echo "... writefirst.i"
-	@echo "... writefirst.s"
+	@echo "... client12.o"
+	@echo "... client22.o"
+	@echo "... server3.o"
 .PHONY : help
 
 
