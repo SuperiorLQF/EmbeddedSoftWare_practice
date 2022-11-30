@@ -23,7 +23,8 @@ static int writercount=0;//写者计数变量，初始化为0
 static pthread_mutex_t  readercount_mutex,
                         writercount_mutex,
                         reader_mutex,
-                        writer_mutex;
+                        writer_mutex,
+                        FIFO_mutex;
 static sem_t datarecv_sem;
 /***********<读线程函数>*****************/
 void *reader(p_thargs p1);
@@ -58,7 +59,7 @@ int main(){
         sem_wait(&datarecv_sem);
     }
 
-    for(k=0;k<10;k++){
+    for(k=0;k<5;k++){
         p1->rw_num=k;//为传递参数赋值
         pthread_create(&readernum[k],NULL,(void *)reader,p1);//创建读线程
         //等待信号接受数据完毕
@@ -68,6 +69,13 @@ int main(){
     for(k=5;k<10;k++){
         p1->rw_num=k;//为传递参数赋值
         pthread_create(&writernum[k],NULL,(void *)writer,p1);//创建写线程
+        //等待信号接受数据完毕
+        sem_wait(&datarecv_sem);
+    }
+
+    for(k=5;k<10;k++){
+        p1->rw_num=k;//为传递参数赋值
+        pthread_create(&readernum[k],NULL,(void *)reader,p1);//创建读线程
         //等待信号接受数据完毕
         sem_wait(&datarecv_sem);
     }
@@ -87,13 +95,13 @@ void *reader(p_thargs p1)
     //接收完毕释放信号
     sem_post(&datarecv_sem);
     
-    pthread_mutex_lock(&reader_mutex);
+    pthread_mutex_lock(&FIFO_mutex);
     pthread_mutex_lock(&readercount_mutex);
     if(readercount == 0) 
         pthread_mutex_lock(&writer_mutex);  //第一个读者需占据写锁
     readercount++;
     pthread_mutex_unlock(&readercount_mutex);
-    pthread_mutex_unlock(&reader_mutex);
+    pthread_mutex_unlock(&FIFO_mutex);
    
     //读文件操作
     struct timespec endT;
@@ -121,14 +129,9 @@ void *writer(p_thargs p1)
     //接收完毕释放信号
     sem_post(&datarecv_sem);
 
-    //进入写计数临界区//
-    pthread_mutex_lock(&writercount_mutex);    
-    if(writercount==0)
-        pthread_mutex_lock(&reader_mutex);
-    writercount++;
-    pthread_mutex_unlock(&writercount_mutex); 
-    //退出写计数临界区//       
-    
+  
+      
+    pthread_mutex_lock(&FIFO_mutex);    
     //进入写临界区//
     pthread_mutex_lock(&writer_mutex);//获得写锁，否则一直阻塞等待
     
@@ -151,6 +154,7 @@ void *writer(p_thargs p1)
         pthread_mutex_unlock(&reader_mutex);
     pthread_mutex_unlock(&writercount_mutex); 
     //退出写计数临界区//
+    pthread_mutex_unlock(&FIFO_mutex); 
 
     //退出线程
     pthread_exit(NULL);
